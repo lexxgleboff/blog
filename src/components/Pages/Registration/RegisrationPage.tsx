@@ -1,8 +1,11 @@
 /* eslint-disable consistent-return */
-import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-// import { Checkbox } from 'antd'
+import { ThreeDots } from 'react-loader-spinner'
 import classes from './RegistrationPage.module.sass'
+import { useAppDispatch, useAppSelector } from '../../../hook'
+import { fetchRegUser } from '../../../redux/slice/userSlice'
 
 type Profile = {
   name: string
@@ -13,6 +16,9 @@ type Profile = {
 }
 
 const RegisrationPage = () => {
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const { error, loading, isReg } = useAppSelector((state) => state.user)
   const {
     register,
     formState: { errors },
@@ -23,10 +29,25 @@ const RegisrationPage = () => {
     mode: 'onChange',
   })
 
-  const onSubmit = handleSubmit((data: {}) => {
-    console.log(data)
-    reset()
+  const onSubmit = handleSubmit((data) => {
+    const validData = {
+      user: {
+        username: data.name,
+        email: data.email.toLowerCase(),
+        password: data.password,
+      },
+    }
+    dispatch(fetchRegUser(validData))
   })
+
+  useEffect(() => {
+    if (!isReg) {
+      navigate('/sign-up', { replace: true })
+    } else {
+      reset()
+      navigate('/sign-in', { replace: true })
+    }
+  }, [isReg])
 
   return (
     <div className={classes.container}>
@@ -43,6 +64,10 @@ const RegisrationPage = () => {
             required: 'Поле обязательно к заполнению',
             minLength: 3,
             maxLength: 20,
+            pattern: {
+              value: /^[a-z][a-z0-9]*$/,
+              message: 'Username может начинаться только со строчных английских букв и содержать цифры',
+            },
           })}
         />
         {errors?.name && (
@@ -76,7 +101,7 @@ const RegisrationPage = () => {
         />
         {errors?.password && (
           <span className={classes.error}>
-            {errors?.password?.message || 'Password должен быть от 3 до 20 символов'}
+            {errors?.password?.message || 'Password должен быть от 6 до 40 символов'}
           </span>
         )}
         <span className={classes.label}>Repeat password</span>
@@ -97,7 +122,7 @@ const RegisrationPage = () => {
         />
         {errors?.repeatPassword && (
           <span className={classes.error}>
-            {errors?.repeatPassword?.message || 'Password должен быть от 3 до 20 символов'}
+            {errors?.repeatPassword?.message || 'Password должен быть от 6 до 40 символов'}
           </span>
         )}
         <div className={classes['box-checkbox']}>
@@ -109,10 +134,23 @@ const RegisrationPage = () => {
           <label htmlFor="acceptTerms">I agree to the processing of my personal information</label>
         </div>
         {errors?.acceptTerms && <span className={classes.error}>{errors?.acceptTerms?.message || ''}</span>}
+        <span className={classes.error}>{error ?? ''}</span>
         <button
           className={classes.btn}
           type="submit">
-          Create
+          {loading ? (
+            <ThreeDots
+              height="20"
+              width="20"
+              radius="9"
+              color="#fff"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{ justifyContent: 'center' }}
+              visible={true}
+            />
+          ) : (
+            'Create'
+          )}
         </button>
         <span className={classes.text}>
           Already have an account? <Link to={'/sign-in'}>Sign In.</Link>

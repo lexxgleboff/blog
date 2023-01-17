@@ -3,14 +3,14 @@ import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
 import classes from './Article.module.sass'
 import { IArticle } from '../../types'
+import { v4 as uuidv4 } from 'uuid'
 
 interface ArticleProps {
   article: IArticle
 }
 
 const Article: React.FC<ArticleProps> = ({ article }) => {
-  console.log(article)
-  const { slug, title, description, author, createdAt, favoritesCount } = article
+  const { slug, title, description, author, createdAt, favoritesCount, tagList } = article
   return (
     <>
       <div className={classes.article}>
@@ -27,7 +27,15 @@ const Article: React.FC<ArticleProps> = ({ article }) => {
             <span className={classes['count-like']}>{favoritesCount}</span>
           </div>
           <div>
-            <span className={classes.tag}>Tag1</span>
+            {tagList.map((tag) => {
+              return (
+                <span
+                  key={uuidv4()}
+                  className={classes.tag}>
+                  {tag}
+                </span>
+              )
+            })}
           </div>
           <p className={classes.description}>{description}</p>
         </div>

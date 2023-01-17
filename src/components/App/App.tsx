@@ -1,15 +1,21 @@
 import { Routes, Route } from 'react-router-dom'
-// import { useEffect } from 'react'
+import { useEffect } from 'react'
 // import classes from './App.module.sass'
 import MyLayout from '../Layout/Layout'
 import RegisrationPage from '../Pages/Registration/RegisrationPage'
 import LoginPage from '../Pages/Login/LoginPage'
 import ArticlesPage from '../Pages/Articles/ArticlesPage'
 import ArticlePage from '../Pages/Article/ArticlePage'
-// import { useAppDispatch, useAppSelector } from '../../hook'
-// import { fetchArticles } from '../../redux/slice/articlesSlice'
+import ProfilePage from '../Pages/Profile/ProfilePage'
+import PrivateRoute from '../../utils/privateRoute'
+import { useAppDispatch } from '../../hook'
+import { fetchGetCurrentUser } from '../../redux/slice/userSlice'
 
 function App() {
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(fetchGetCurrentUser())
+  }, [])
   return (
     <>
       <Routes>
@@ -31,6 +37,11 @@ function App() {
           <Route
             path="sign-up"
             element={<RegisrationPage></RegisrationPage>}></Route>
+          <Route element={<PrivateRoute />}>
+            <Route
+              path="profile"
+              element={<ProfilePage></ProfilePage>}></Route>
+          </Route>
         </Route>
         <Route
           path="*"

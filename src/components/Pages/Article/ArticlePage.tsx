@@ -7,7 +7,6 @@ import { format } from 'date-fns'
 import classes from './ArticlePage.module.sass'
 import { useAppDispatch, useAppSelector } from '../../../hook'
 import { fetchArticle } from '../../../redux/slice/articlesSlice'
-import Article from '../../Article/Article'
 
 const ArticlePage: React.FC = () => {
   const dispatch = useAppDispatch()
