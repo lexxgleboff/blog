@@ -108,7 +108,7 @@ export const fetchGetCurrentUser = createAsyncThunk<UserState, undefined, { reje
       },
     })
     if (!response.ok) {
-      return rejectWithValue('Для доступа к этой странице нужно залогиниться')
+      return rejectWithValue('')
     }
     const data = await response.json()
     return data
