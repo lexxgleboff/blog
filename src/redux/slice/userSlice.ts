@@ -100,9 +100,6 @@ export const fetchGetCurrentUser = createAsyncThunk<UserState, undefined, { reje
   'user/fetchGetCurrentUser',
   async (_, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
-
-    if (!token) return
-
     const response = await fetch('https://blog.kata.academy/api/user', {
       method: 'GET',
       headers: {
@@ -111,7 +108,7 @@ export const fetchGetCurrentUser = createAsyncThunk<UserState, undefined, { reje
       },
     })
     if (!response.ok) {
-      return rejectWithValue('Server Error')
+      return rejectWithValue('Для доступа к этой странице нужно залогиниться')
     }
     const data = await response.json()
     return data
@@ -131,7 +128,7 @@ export const fetchUpdateUser = createAsyncThunk<UserState, PostDataUpdateUser, {
       body: JSON.stringify(validData),
     })
     if (!response.ok) {
-      return rejectWithValue('Server Error')
+      return rejectWithValue('Для доступа к этой странице нужно залогиниться')
     }
     const data = await response.json()
     localStorage.setItem('token', data.user.token)

@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
 import { useEffect } from 'react'
-// import classes from './App.module.sass'
 import MyLayout from '../Layout/Layout'
 import RegisrationPage from '../Pages/Registration/RegisrationPage'
 import LoginPage from '../Pages/Login/LoginPage'
@@ -8,6 +7,8 @@ import ArticlesPage from '../Pages/Articles/ArticlesPage'
 import ArticlePage from '../Pages/Article/ArticlePage'
 import ProfilePage from '../Pages/Profile/ProfilePage'
 import PrivateRoute from '../../utils/privateRoute'
+import CreateArticlePage from '../Pages/CreateArticle/CreateArticlePage'
+import EditArticlePage from '../Pages/EditArticle/EditArticlePage'
 import { useAppDispatch } from '../../hook'
 import { fetchGetCurrentUser } from '../../redux/slice/userSlice'
 
@@ -41,6 +42,12 @@ function App() {
             <Route
               path="profile"
               element={<ProfilePage></ProfilePage>}></Route>
+            <Route
+              path="new-article"
+              element={<CreateArticlePage></CreateArticlePage>}></Route>
+            <Route
+              path="articles/:slug/edit"
+              element={<EditArticlePage></EditArticlePage>}></Route>
           </Route>
         </Route>
         <Route

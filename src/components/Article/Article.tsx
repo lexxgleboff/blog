@@ -1,16 +1,26 @@
-import { HeartOutlined } from '@ant-design/icons'
+/* eslint-disable no-nested-ternary */
+import { useState } from 'react'
+import { HeartFilled, HeartOutlined } from '@ant-design/icons'
 import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
 import classes from './Article.module.sass'
 import { IArticle } from '../../types'
-import { v4 as uuidv4 } from 'uuid'
+import { useAppDispatch } from '../../hook'
+import { fetchLikeToggle } from '../../redux/slice/articlesSlice'
+import { useAuth } from '../../hooks/use-auth'
 
 interface ArticleProps {
   article: IArticle
 }
 
 const Article: React.FC<ArticleProps> = ({ article }) => {
-  const { slug, title, description, author, createdAt, favoritesCount, tagList } = article
+  const { isAuth } = useAuth()
+  const dispatch = useAppDispatch()
+  const { slug, title, description, author, createdAt, tagList, favorited, favoritesCount } = article
+  const [like, setLike] = useState(favorited)
+  const [count, setCount] = useState(favoritesCount)
+
   return (
     <>
       <div className={classes.article}>
@@ -21,10 +31,23 @@ const Article: React.FC<ArticleProps> = ({ article }) => {
               className={classes.title}>
               {title}
             </Link>
-            <HeartOutlined
-              style={{ cursor: 'pointer', marginRight: '5px', fontSize: '16px', color: 'rgba(0, 0, 0, .75)' }}
-            />
-            <span className={classes['count-like']}>{favoritesCount}</span>
+            <button
+              disabled={!isAuth}
+              className={classes.like}
+              onClick={() => {
+                setLike(!like)
+                setCount(like ? count - 1 : count + 1)
+                dispatch(fetchLikeToggle([like, slug]))
+              }}>
+              {like && isAuth ? (
+                <HeartFilled style={{ cursor: 'pointer', marginRight: '5px', fontSize: '16px', color: 'red' }} />
+              ) : (
+                <HeartOutlined
+                  style={{ cursor: 'pointer', marginRight: '5px', fontSize: '16px', color: 'rgba(0, 0, 0, .75)' }}
+                />
+              )}
+            </button>
+            <span className={classes['count-like']}>{count}</span>
           </div>
           <div>
             {tagList.map((tag) => {

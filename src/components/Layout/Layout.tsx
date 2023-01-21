@@ -3,9 +3,7 @@ import { Outlet } from 'react-router-dom'
 import Header from './Header/Header'
 import classes from './Layout.module.sass'
 
-type Props = {}
-
-const MyLayout = (props: Props) => {
+const MyLayout: React.FC = () => {
   return (
     <Layout>
       <Header></Header>

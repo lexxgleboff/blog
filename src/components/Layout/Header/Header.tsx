@@ -39,7 +39,7 @@ const Header: React.FC = () => {
         <div className={classes.islogin}>
           <div>
             <Link
-              to="/sign-in"
+              to="/new-article"
               className={classes['create']}>
               Create article
             </Link>
