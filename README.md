@@ -2,7 +2,7 @@
 
 Typescript + React + Redux Toolkit + AntDesign + Router v6 + React Hook Form + Markdown.
 
-Link to vercel: 
+Link to vercel: https://blog-mu-lemon-24.vercel.app/
 
 Для форматирования кода настроены конфиги eslint, prettier, husky, lint-staged.
 
