@@ -72,7 +72,6 @@ export const fetchRegUser = createAsyncThunk<UserState, PostDataCreateUser, { re
     }
     const data = await response.json()
     if (!localStorage.getItem('token')) localStorage.setItem('token', data.user.token)
-    console.log(data)
     return data
   }
 )
@@ -154,6 +153,9 @@ const userSlice = createSlice({
         image: '',
       }
     },
+    errorNull(state) {
+      state.error = ''
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -193,6 +195,6 @@ const userSlice = createSlice({
   },
 })
 
-export const { logout } = userSlice.actions
+export const { logout, errorNull } = userSlice.actions
 
 export default userSlice.reducer

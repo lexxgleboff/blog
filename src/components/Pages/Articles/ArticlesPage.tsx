@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Pagination } from 'antd'
 import { RotatingLines } from 'react-loader-spinner'
 import classes from './ArticlesPage.module.sass'
-import { useAppDispatch, useAppSelector } from '../../../hook'
+import { useAppDispatch, useAppSelector } from '../../../hooks/hook'
 import Article from '../../Article/Article'
 import { fetchArticles, nextPage, togglePage } from '../../../redux/slice/articlesSlice'
 

@@ -3,8 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { ThreeDots } from 'react-loader-spinner'
 import classes from './LoginPage.module.sass'
-import { fetchLoginUser } from '../../../redux/slice/userSlice'
-import { useAppDispatch, useAppSelector } from '../../../hook'
+import { errorNull, fetchLoginUser } from '../../../redux/slice/userSlice'
+import { useAppDispatch, useAppSelector } from '../../../hooks/hook'
 import { useAuth } from '../../../hooks/use-auth'
 
 type Profile = {
@@ -42,6 +42,10 @@ const LoginPage = () => {
       navigate('/', { replace: true })
     }
   }, [isAuth])
+
+  useEffect(() => {
+    dispatch(errorNull())
+  }, [])
 
   return (
     <div className={classes.container}>

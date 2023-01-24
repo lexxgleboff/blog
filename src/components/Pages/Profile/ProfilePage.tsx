@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { ThreeDots } from 'react-loader-spinner'
 import classes from './ProfilePage.module.sass'
 import { useAuth } from '../../../hooks/use-auth'
-import { useAppSelector, useAppDispatch } from '../../../hook'
+import { useAppSelector, useAppDispatch } from '../../../hooks/hook'
 import { fetchUpdateUser } from '../../../redux/slice/userSlice'
 
 type Profile = {

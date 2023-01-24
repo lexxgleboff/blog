@@ -5,10 +5,11 @@ import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import classes from './Article.module.sass'
-import { IArticle } from '../../types'
-import { useAppDispatch } from '../../hook'
+import { IArticle } from '../../types/types'
+import { useAppDispatch } from '../../hooks/hook'
 import { fetchLikeToggle } from '../../redux/slice/articlesSlice'
 import { useAuth } from '../../hooks/use-auth'
+import limitString from '../../utils/limitString'
 
 interface ArticleProps {
   article: IArticle
@@ -29,7 +30,7 @@ const Article: React.FC<ArticleProps> = ({ article }) => {
             <Link
               to={`/articles/${slug}`}
               className={classes.title}>
-              {title}
+              {limitString(title)}
             </Link>
             <button
               disabled={!isAuth}
@@ -55,12 +56,12 @@ const Article: React.FC<ArticleProps> = ({ article }) => {
                 <span
                   key={uuidv4()}
                   className={classes.tag}>
-                  {tag}
+                  {limitString(tag, 20)}
                 </span>
               )
             })}
           </div>
-          <p className={classes.description}>{description}</p>
+          <p className={classes.description}>{limitString(description)}</p>
         </div>
         <div className={classes.author}>
           <div>

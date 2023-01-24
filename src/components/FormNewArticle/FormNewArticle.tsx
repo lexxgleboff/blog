@@ -4,7 +4,7 @@ import { Button } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useFieldArray, useForm } from 'react-hook-form'
 import classes from './FormNewArticle.module.sass'
-import { useAppDispatch, useAppSelector } from '../../hook'
+import { useAppDispatch, useAppSelector } from '../../hooks/hook'
 import { fetchCreateArticle, fetchUpdateArticle, togglePage } from '../../redux/slice/articlesSlice'
 
 interface IFormNewArticle {

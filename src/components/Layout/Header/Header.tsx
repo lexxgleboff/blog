@@ -2,8 +2,8 @@
 import { Layout } from 'antd'
 import { Link } from 'react-router-dom'
 import classes from './Header.module.sass'
-import { useAppDispatch } from '../../../hook'
-import { togglePage } from '../../../redux/slice/articlesSlice'
+import { useAppDispatch } from '../../../hooks/hook'
+import { nextPage, togglePage } from '../../../redux/slice/articlesSlice'
 import { useAuth } from '../../../hooks/use-auth'
 import { logout } from '../../../redux/slice/userSlice'
 import defaultAvatar from '../../../assets/defaultAvatar.jpg'
@@ -19,7 +19,10 @@ const Header: React.FC = () => {
       className={classes.header}>
       <Link
         to="/"
-        onClick={() => dispatch(togglePage(1))}>
+        onClick={() => {
+          dispatch(nextPage(1))
+          dispatch(togglePage(1))
+        }}>
         Realworld Blog
       </Link>
       {!isAuth ? (
@@ -50,7 +53,7 @@ const Header: React.FC = () => {
             <span>{username}</span>
             <img
               className={classes.avatar}
-              src={image ?? defaultAvatar}
+              src={image === '' ? defaultAvatar : image ?? defaultAvatar}
               alt="avatar"
             />
           </Link>

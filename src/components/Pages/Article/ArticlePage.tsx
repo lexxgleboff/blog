@@ -6,7 +6,7 @@ import { RotatingLines } from 'react-loader-spinner'
 import { format } from 'date-fns'
 import { Button, Popconfirm } from 'antd'
 import classes from './ArticlePage.module.sass'
-import { useAppDispatch, useAppSelector } from '../../../hook'
+import { useAppDispatch, useAppSelector } from '../../../hooks/hook'
 import { fetchArticle, fetchDeleteArticle, fetchLikeToggle, togglePage } from '../../../redux/slice/articlesSlice'
 import { useAuth } from '../../../hooks/use-auth'
 
@@ -56,80 +56,91 @@ const ArticlePage: React.FC = () => {
         </div>
       ) : (
         <>
-          <div className={classes.box}>
-            <div className={classes.article}>
-              <div className={classes.info}>
-                <div className={classes.titleblock}>
-                  <span className={classes.title}>{title}</span>
-                  <button
-                    className={classes.like}
-                    onClick={() => {
-                      setLike(!like)
-                      setCount(like ? count - 1 : count + 1)
-                      dispatch(fetchLikeToggle([like, slug]))
-                    }}>
-                    {like && isAuth ? (
-                      <HeartFilled style={{ cursor: 'pointer', marginRight: '5px', fontSize: '16px', color: 'red' }} />
-                    ) : (
-                      <HeartOutlined
-                        style={{ cursor: 'pointer', marginRight: '5px', fontSize: '16px', color: 'rgba(0, 0, 0, .75)' }}
+          {slug === article.slug ? (
+            <div className={classes.box}>
+              <div className={classes.article}>
+                <div className={classes.info}>
+                  <div className={classes.titleblock}>
+                    <span className={classes.title}>{title}</span>
+                    <button
+                      className={classes.like}
+                      onClick={() => {
+                        setLike(!like)
+                        setCount(like ? count - 1 : count + 1)
+                        dispatch(fetchLikeToggle([like, slug]))
+                      }}>
+                      {like && isAuth ? (
+                        <HeartFilled
+                          style={{ cursor: 'pointer', marginRight: '5px', fontSize: '16px', color: 'red' }}
+                        />
+                      ) : (
+                        <HeartOutlined
+                          style={{
+                            cursor: 'pointer',
+                            marginRight: '5px',
+                            fontSize: '16px',
+                            color: 'rgba(0, 0, 0, .75)',
+                          }}
+                        />
+                      )}
+                    </button>
+                    <span className={classes['count-like']}>{count}</span>
+                  </div>
+                  <div>
+                    <span className={classes.tag}>Tag1</span>
+                  </div>
+                  <p className={classes.description}>{description}</p>
+                </div>
+                <div className={classes.author}>
+                  <div style={{ display: 'flex', marginBottom: '15px' }}>
+                    <div>
+                      <span className={classes.name}>{author.username}</span>
+                      <span className={classes.date}>{createdAt && format(new Date(createdAt), 'PPP')}</span>
+                    </div>
+                    <div className={classes.avatar}>
+                      <img
+                        style={{ height: '46px', width: '46px' }}
+                        src={author.image}
+                        alt="avatar"
                       />
-                    )}
-                  </button>
-                  <span className={classes['count-like']}>{count}</span>
-                </div>
-                <div>
-                  <span className={classes.tag}>Tag1</span>
-                </div>
-                <p className={classes.description}>{description}</p>
-              </div>
-              <div className={classes.author}>
-                <div style={{ display: 'flex', marginBottom: '15px' }}>
-                  <div>
-                    <span className={classes.name}>{author.username}</span>
-                    <span className={classes.date}>{createdAt && format(new Date(createdAt), 'PPP')}</span>
+                    </div>
                   </div>
-                  <div className={classes.avatar}>
-                    <img
-                      style={{ height: '46px', width: '46px' }}
-                      src={author.image}
-                      alt="avatar"
-                    />
-                  </div>
-                </div>
-                {isAuth && username === author.username && (
-                  <div>
-                    <Popconfirm
-                      placement="right"
-                      title="Delete the task"
-                      description="Are you sure to delete this task?"
-                      onConfirm={confirm}
-                      onCancel={cancel}
-                      okText="Yes"
-                      cancelText="No">
-                      <Button
-                        type="primary"
-                        danger
-                        ghost
-                        className={classes.delete}
-                        style={{ marginRight: '8px' }}>
-                        Delete
-                      </Button>
-                    </Popconfirm>
+                  {isAuth && username === author.username && (
+                    <div>
+                      <Popconfirm
+                        placement="right"
+                        title="Delete the task"
+                        description="Are you sure to delete this task?"
+                        onConfirm={confirm}
+                        onCancel={cancel}
+                        okText="Yes"
+                        cancelText="No">
+                        <Button
+                          type="primary"
+                          danger
+                          ghost
+                          className={classes.delete}
+                          style={{ marginRight: '8px' }}>
+                          Delete
+                        </Button>
+                      </Popconfirm>
 
-                    <Link
-                      to={`/articles/${slug}/edit`}
-                      className={classes.edit}>
-                      Edit
-                    </Link>
-                  </div>
-                )}
+                      <Link
+                        to={`/articles/${slug}/edit`}
+                        className={classes.edit}>
+                        Edit
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div>
+                <ReactMarkdown>{body}</ReactMarkdown>
               </div>
             </div>
-            <div>
-              <ReactMarkdown>{body}</ReactMarkdown>
-            </div>
-          </div>
+          ) : (
+            <h2 className={classes.noarticle}>Статья не найдена</h2>
+          )}
         </>
       )}
     </div>

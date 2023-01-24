@@ -9,7 +9,7 @@ import ProfilePage from '../Pages/Profile/ProfilePage'
 import PrivateRoute from '../../utils/privateRoute'
 import CreateArticlePage from '../Pages/CreateArticle/CreateArticlePage'
 import EditArticlePage from '../Pages/EditArticle/EditArticlePage'
-import { useAppDispatch } from '../../hook'
+import { useAppDispatch } from '../../hooks/hook'
 import { fetchGetCurrentUser } from '../../redux/slice/userSlice'
 
 function App() {
@@ -22,32 +22,40 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<MyLayout></MyLayout>}>
+          element={<MyLayout />}>
           <Route
             index
-            element={<ArticlesPage></ArticlesPage>}></Route>
+            element={<ArticlesPage />}
+          />
           <Route
             path="articles"
-            element={<ArticlesPage></ArticlesPage>}></Route>
+            element={<ArticlesPage />}
+          />
           <Route
             path="articles/:slug"
-            element={<ArticlePage></ArticlePage>}></Route>
+            element={<ArticlePage />}
+          />
           <Route
             path="sign-in"
-            element={<LoginPage></LoginPage>}></Route>
+            element={<LoginPage />}
+          />
           <Route
             path="sign-up"
-            element={<RegisrationPage></RegisrationPage>}></Route>
+            element={<RegisrationPage />}
+          />
           <Route element={<PrivateRoute />}>
             <Route
               path="profile"
-              element={<ProfilePage></ProfilePage>}></Route>
+              element={<ProfilePage />}
+            />
             <Route
               path="new-article"
-              element={<CreateArticlePage></CreateArticlePage>}></Route>
+              element={<CreateArticlePage />}
+            />
             <Route
               path="articles/:slug/edit"
-              element={<EditArticlePage></EditArticlePage>}></Route>
+              element={<EditArticlePage />}
+            />
           </Route>
         </Route>
         <Route

@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { ThreeDots } from 'react-loader-spinner'
 import classes from './RegistrationPage.module.sass'
-import { useAppDispatch, useAppSelector } from '../../../hook'
+import { useAppDispatch, useAppSelector } from '../../../hooks/hook'
 import { fetchRegUser } from '../../../redux/slice/userSlice'
 
 type Profile = {

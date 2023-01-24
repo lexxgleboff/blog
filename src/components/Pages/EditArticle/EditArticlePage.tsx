@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 import classes from './EditArticlePage.module.sass'
 import FormNewArticle from '../../FormNewArticle/FormNewArticle'
-import { useAppSelector } from '../../../hook'
+import { useAppSelector } from '../../../hooks/hook'
 
 const EditArticlePage: React.FC = () => {
   const { slug } = useParams()
